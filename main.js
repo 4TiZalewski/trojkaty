@@ -73,44 +73,50 @@ function check_geometry(sides, display) {
         return;
     }
 
-    const message0 = document.createElement('p');
-    message0.className = "msg";
-    message0.innerText = `Trojkąt jest możliwy to utworzenia z boków ${geometry_values[0]}, ${geometry_values[1]}, ${geometry_values[2]}`;
-    display.appendChild(message0);
+    // Is triangle possible to create?
+    let message = document.createElement('p');
+    message.className = "msg";
+    message.innerText = `Trojkąt jest możliwy to utworzenia z boków ${geometry_values[0]}, ${geometry_values[1]}, ${geometry_values[2]}`;
+    display.appendChild(message);
 
-
+    // Show triangle type
     const triangle_type = get_triangle_type(geometry_values);
-    let texify_triangle_type;
-    if (triangle_type == TriangleType.OSTROKATNY) {
-        texify_triangle_type = "ostrokątny";
-    } else if (triangle_type == TriangleType.PROSTOKATNY) {
-        texify_triangle_type = "prostokątny";
-    } else {
-        texify_triangle_type = "rozwartokątny";
-    }
+    show_triangle_type(display, triangle_type);
 
+    // Show field of triangle
+    const field = calculate_field(geometry_values);
+    message = document.createElement('p');
+    message.className = "msg";
+    message.innerText = `Pole wynosi: ${field.toFixed(2)}u\xB2`;
+    display.appendChild(message);
+}
+
+/**
+ * @param {HTMLElement} display
+ * @param {TriangleType} triangle_type
+ */
+function show_triangle_type(display, triangle_type) {
+    let texify_triangle_type;
     const image = document.createElement('img');
     image.className = "triangle-image";
+
     if (triangle_type == TriangleType.OSTROKATNY) {
+        texify_triangle_type = "ostrokątny";
         image.src = "assets/ostrokatny.webp";
     } else if (triangle_type == TriangleType.PROSTOKATNY) {
+        texify_triangle_type = "prostokątny";
         image.src = "assets/prostokatny.webp";
     } else {
+        texify_triangle_type = "rozwartokątny";
         image.src = "assets/rozwartokatny.png";
     }
+
     display.appendChild(image);
 
-    const message1 = document.createElement('p');
-    message1.className = "msg";
-    message1.innerText = `Jest to trójkąt ${texify_triangle_type}`;
-    display.appendChild(message1);
-
-
-    const field = calculate_field(geometry_values);
-    const message2 = document.createElement('p');
-    message2.className = "msg";
-    message2.innerText = `Pole wynosi: ${field.toFixed(2)}u\xB2`;
-    display.appendChild(message2);
+    const message = document.createElement('p');
+    message.className = "msg";
+    message.innerText = `Jest to trójkąt ${texify_triangle_type}`;
+    display.appendChild(message);
 }
 
 /**
